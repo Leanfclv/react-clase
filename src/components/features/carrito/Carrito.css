@@ -1,0 +1,68 @@
+.carrito-page {
+  padding: 80px 24px 40px;
+  max-width: 1000px;
+  margin-left: 0; /* alineado a la izquierda */
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+
+.carrito-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.carrito-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.carrito-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.carrito-info {
+  flex: 1;
+}
+
+.carrito-info h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.carrito-info p {
+  margin: 0 0 8px;
+  color: green;
+  font-weight: bold;
+}
+
+.carrito-info button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.carrito-total {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vaciar-btn {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}

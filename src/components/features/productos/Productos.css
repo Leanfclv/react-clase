@@ -1,0 +1,28 @@
+.productos-container {
+  padding: 100px 32px 48px;
+  max-width: 100%; /* más ancho para permitir más columnas */
+  margin: 0 auto;
+}
+
+.productos-container h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 20%); /* columnas fijas */
+  gap: 32px;
+  justify-content: center; /* centra la grilla si sobra espacio */
+}
+.producto-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 5s;
+}
