@@ -12,7 +12,6 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-
 .nav-left {
   display: flex;
   gap: 16px;
@@ -42,12 +41,12 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: white; /* ← esto fuerza el color blanco */
+  color: white;
   font-size: 20px;
 }
 
 .cart-icon:hover {
-  color: #d4eaff; /* azul claro al hacer hover */
+  color: #d4eaff;
 }
 
 .cart-count {
@@ -59,4 +58,33 @@
   font-size: 12px;
   padding: 2px 6px;
   border-radius: 50%;
+}
+
+/* 🔥 Botones de sesión */
+.nav-btn {
+  margin-left: 12px;
+  padding: 6px 12px;
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.nav-user {
+  margin-left: 12px;
+  font-weight: 500;
+  color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
 }

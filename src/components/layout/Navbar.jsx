@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaHome, FaEnvelope } from "react-icons/fa";
-import { CarritoContext } from "../../context/CarritoContext"; // 👈 Importamos el contexto
+import { FaShoppingCart, FaHome, FaEnvelope, FaUser } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext"; // 👈 Importamos el contexto
+import { CarritoContext } from "../../context/CarritoContext";
 import "./Navbar.css";
 
 function Navbar() {
-  const { carrito } = useContext(CarritoContext); // 👈 Obtenemos carrito del contexto
+  const { carrito } = useContext(CarritoContext);
+  const { user, logout } = useContext(AuthContext); // 👈 Obtenemos usuario y logout
 
   return (
     <nav className="navbar">
@@ -19,13 +21,37 @@ function Navbar() {
           Contacto
         </Link>
       </div>
+
       <div className="nav-right">
+        {/* Carrito */}
         <Link to="/carrito" className="cart-icon">
           <FaShoppingCart />
           {carrito.length > 0 && (
             <span className="cart-count">{carrito.length}</span>
           )}
         </Link>
+
+        {/* 👇 Botones de login/registro o logout */}
+        {user ? (
+          <>
+            <span className="nav-user">
+              <FaUser style={{ marginRight: "6px" }} />
+              {user.email}
+            </span>
+            <button className="nav-btn" onClick={logout}>
+              Cerrar sesión
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="nav-btn">
+              Iniciar sesión
+            </Link>
+            <Link to="/register" className="nav-btn">
+              Registrarse
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
