@@ -36,3 +36,37 @@
   line-height: 1.5;
   color: #333;
 }
+.detalle-btn {
+  padding: 10px 16px;
+  background-color: #007bff; /* azul consistente con tu navbar */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.detalle-btn:hover {
+  background-color: #0056b3; /* azul más oscuro al hover */
+}
+
+.detalle-warning {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #555;
+  background-color: #f5f7ff;
+  border: 1px solid #e6edff;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.detalle-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.detalle-link:hover {
+  text-decoration: underline;
+}

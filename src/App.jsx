@@ -25,11 +25,12 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProductos(data))
-      .catch((error) => console.error("Error al cargar productos:", error));
-  }, []);
+  fetch("https://69275fed26e7e41498fe04b6.mockapi.io/productos") // 👈 endpoint de Mokapi
+    .then((res) => res.json())
+    .then((data) => setProductos(data))
+    .catch((error) => console.error("Error al cargar productos:", error));
+}, []);
+
 
   return (
     <AuthProvider>

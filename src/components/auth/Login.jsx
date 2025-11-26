@@ -11,7 +11,7 @@ function Login() {
     try {
       await login(email, password);
     } catch (error) {
-      console.error("Error en login:", error.message);
+      alert("Error en login: " + error.message);
     }
   };
 
@@ -19,8 +19,18 @@ function Login() {
     <div>
       <h2>Iniciar sesión</h2>
       <form onSubmit={handleSubmit}>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Entrar</button>
       </form>
     </div>

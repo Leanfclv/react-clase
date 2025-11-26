@@ -1,13 +1,20 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaHome, FaEnvelope, FaUser } from "react-icons/fa";
-import { AuthContext } from "../../context/AuthContext"; // 👈 Importamos el contexto
+import {
+  FaShoppingCart,
+  FaHome,
+  FaEnvelope,
+  FaUser,
+  FaSignOutAlt
+} from "react-icons/fa";
+
+import { AuthContext } from "../../context/AuthContext";
 import { CarritoContext } from "../../context/CarritoContext";
 import "./Navbar.css";
 
 function Navbar() {
   const { carrito } = useContext(CarritoContext);
-  const { user, logout } = useContext(AuthContext); // 👈 Obtenemos usuario y logout
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <nav className="navbar">
@@ -23,15 +30,16 @@ function Navbar() {
       </div>
 
       <div className="nav-right">
-        {/* Carrito */}
-        <Link to="/carrito" className="cart-icon">
-          <FaShoppingCart />
-          {carrito.length > 0 && (
-            <span className="cart-count">{carrito.length}</span>
-          )}
-        </Link>
+        {/* Carrito protegido */}
+        {user && (
+          <Link to="/carrito" className="cart-icon">
+            <FaShoppingCart />
+            {carrito.length > 0 && (
+              <span className="cart-count">{carrito.length}</span>
+            )}
+          </Link>
+        )}
 
-        {/* 👇 Botones de login/registro o logout */}
         {user ? (
           <>
             <span className="nav-user">
@@ -39,6 +47,7 @@ function Navbar() {
               {user.email}
             </span>
             <button className="nav-btn" onClick={logout}>
+              <FaSignOutAlt style={{ marginRight: "6px" }} />
               Cerrar sesión
             </button>
           </>

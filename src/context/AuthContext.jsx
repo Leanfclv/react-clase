@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { auth } from "../firebaseConfig"; // 👈 Importamos la config de Firebase
+import { auth } from "../firebaseConfig";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -7,14 +7,12 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 
-// Creamos el contexto
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Escuchar cambios de sesión (login/logout)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -23,34 +21,16 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  // Login con email y contraseña
   const login = async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error("Error en login:", error.message);
-      throw error;
-    }
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
-  // Registro de usuario
   const register = async (email, password) => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error("Error en registro:", error.message);
-      throw error;
-    }
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // Logout
   const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error en logout:", error.message);
-      throw error;
-    }
+    await signOut(auth);
   };
 
   return (
