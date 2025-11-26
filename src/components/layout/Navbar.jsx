@@ -1,17 +1,21 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaHome, FaEnvelope } from "react-icons/fa";
-import './Navbar.css';
+import { CarritoContext } from "../../context/CarritoContext"; // 👈 Importamos el contexto
+import "./Navbar.css";
 
-function Navbar({ carrito }) {
+function Navbar() {
+  const { carrito } = useContext(CarritoContext); // 👈 Obtenemos carrito del contexto
+
   return (
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/" className="nav-link">
-          <FaHome style={{ marginRight: '6px' }} />
+          <FaHome style={{ marginRight: "6px" }} />
           Inicio
         </Link>
         <Link to="/contacto" className="nav-link">
-          <FaEnvelope style={{ marginRight: '6px' }} />
+          <FaEnvelope style={{ marginRight: "6px" }} />
           Contacto
         </Link>
       </div>

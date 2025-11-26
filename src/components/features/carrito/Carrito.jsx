@@ -1,20 +1,14 @@
+import { useContext } from 'react';
+import { CarritoContext } from '../../../context/CarritoContext'; // 👈 Importamos el contexto
 import { FaTrashAlt, FaShoppingBag } from 'react-icons/fa';
 import './Carrito.css';
 
-function Carrito({ carrito, setCarrito }) {
-  const eliminarProducto = (id) => {
-    const index = carrito.findIndex(p => p.id === id);
-    if (index !== -1) {
-      const nuevoCarrito = [...carrito];
-      nuevoCarrito.splice(index, 1); 
-      setCarrito(nuevoCarrito);
-  }
-};
-  const vaciarCarrito = () => {
-    setCarrito([]);
-  };
+function Carrito() {
+  // 👇 Consumimos el contexto
+  const { carrito, eliminarProducto, vaciarCarrito } = useContext(CarritoContext);
 
-  const total = carrito.reduce((sum, p) => sum + p.price, 0);
+  // Calculamos el total considerando cantidad
+  const total = carrito.reduce((sum, p) => sum + p.price * (p.cantidad || 1), 0);
 
   return (
     <div className="carrito-page">
@@ -30,7 +24,7 @@ function Carrito({ carrito, setCarrito }) {
                 <img src={producto.image} alt={producto.title} />
                 <div className="carrito-info">
                   <h3>{producto.title}</h3>
-                  <p>${producto.price}</p>
+                  <p>${producto.price} x {producto.cantidad || 1}</p>
                   <button onClick={() => eliminarProducto(producto.id)}>
                     <FaTrashAlt style={{ marginRight: '6px' }} />
                     Eliminar
