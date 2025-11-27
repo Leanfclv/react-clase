@@ -1,25 +1,39 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
   FaHome,
   FaEnvelope,
   FaUser,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaSearch
 } from "react-icons/fa";
 
 import { AuthContext } from "../../context/AuthContext";
 import { CarritoContext } from "../../context/CarritoContext";
+import { SearchContext } from "../../context/SearchContext";
+
 import "./Navbar.css";
 
 function Navbar() {
   const { carrito } = useContext(CarritoContext);
   const { user, logout } = useContext(AuthContext);
+  const { query, setQuery } = useContext(SearchContext);
+
+  const navigate = useNavigate();
 
   const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
   const nombreUsuario = user?.displayName
     ? user.displayName.split(" ")[0]
     : "Leandro";
+
+  // 🔎 manejar búsqueda
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim().length > 0) {
+      navigate("/busqueda");
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -36,6 +50,19 @@ function Navbar() {
         </Link>
       </div>
 
+      {/* 🔎 BARRA DE BÚSQUEDA */}
+      <form className="search-bar" onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button type="submit">
+          <FaSearch />
+        </button>
+      </form>
+
       {/* Derecha */}
       <div className="nav-right">
         {user && (
@@ -48,7 +75,7 @@ function Navbar() {
               )}
             </Link>
 
-            {/* PREVISUALIZACIÓN */}
+            {/* PREVIEW FLOTANTE SIEMPRE AL DENTRO DEL CONTENEDOR */}
             <div className="cart-preview">
               {carrito.length === 0 ? (
                 <p className="empty-cart">Tu carrito está vacío</p>

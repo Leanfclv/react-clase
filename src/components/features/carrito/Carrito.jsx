@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { CarritoContext } from '../../../context/CarritoContext'; // 👈 Importamos el contexto
+import { CarritoContext } from '../../../context/CarritoContext'; 
 import { FaTrashAlt, FaShoppingBag } from 'react-icons/fa';
 import './Carrito.css';
 
 function Carrito() {
   // 👇 Consumimos el contexto
-  const { carrito, eliminarProducto, vaciarCarrito } = useContext(CarritoContext);
+  const { carrito, agregarAlCarrito, quitarDelCarrito, vaciarCarrito } = useContext(CarritoContext);
 
   // Calculamos el total considerando cantidad
   const total = carrito.reduce((sum, p) => sum + p.price * (p.cantidad || 1), 0);
@@ -25,7 +25,29 @@ function Carrito() {
                 <div className="carrito-info">
                   <h3>{producto.title}</h3>
                   <p>${producto.price} x {producto.cantidad || 1}</p>
-                  <button onClick={() => eliminarProducto(producto.id)}>
+
+                  {/* 🔹 Controles de cantidad */}
+                  <div className="carrito-controls">
+                    <button 
+                      onClick={() => quitarDelCarrito(producto.id)} 
+                      className="qty-btn"
+                    >
+                      –
+                    </button>
+                    <span className="carrito-qty">{producto.cantidad}</span>
+                    <button 
+                      onClick={() => agregarAlCarrito(producto)} 
+                      className="qty-btn"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* 🔹 Eliminar todo el producto */}
+                  <button 
+                    onClick={() => quitarDelCarrito(producto.id)} 
+                    className="remove-btn"
+                  >
                     <FaTrashAlt style={{ marginRight: '6px' }} />
                     Eliminar
                   </button>

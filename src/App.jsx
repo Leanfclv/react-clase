@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -13,8 +13,10 @@ import Register from "./components/auth/Register";
 import AdminCrud from "./components/admin/AdminCrud";
 import RutaProtegida from "./components/auth/RutaProtegida";
 
-import { CarritoProvider } from "./context/CarritoContext";
 import { AuthProvider } from "./context/AuthContext";
+import { CarritoProvider } from "./context/CarritoContext";
+import { SearchProvider } from "./context/SearchContext";
+
 import "./App.css";
 
 const MotionDiv = motion.create("div");
@@ -23,6 +25,7 @@ function App() {
   const [productos, setProductos] = useState([]);
   const location = useLocation();
 
+  // Fetch de productos desde MockAPI
   useEffect(() => {
     fetch("https://69275fed26e7e41498fe04b6.mockapi.io/productos")
       .then((res) => res.json())
@@ -33,136 +36,151 @@ function App() {
   return (
     <AuthProvider>
       <CarritoProvider>
-        <div className="layout">
-          <Navbar />
+        <SearchProvider>
+          <div className="layout">
+            <Navbar />
+            <main className="main-content">
+              <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
 
-          <main className="main-content">
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                
-                {/* Catálogo */}
-                <Route
-                  path="/"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Productos productos={productos} />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* Contacto */}
-                <Route
-                  path="/contacto"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Contacto />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* 🔓 Carrito (YA NO ES RUTA PROTEGIDA) */}
-                <Route
-                  path="/carrito"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Carrito />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* Detalle de producto */}
-                <Route
-                  path="/producto/:id"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <DetalleProducto productos={productos} />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* Login */}
-                <Route
-                  path="/login"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Login />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* Registro */}
-                <Route
-                  path="/register"
-                  element={
-                    <MotionDiv
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Register />
-                    </MotionDiv>
-                  }
-                />
-
-                {/* Admin CRUD (solo admin) */}
-                <Route
-                  path="/admin"
-                  element={
-                    <RutaProtegida role="admin">
+                  {/* Catálogo */}
+                  <Route
+                    path="/"
+                    element={
                       <MotionDiv
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <AdminCrud />
+                        <Productos productos={productos} />
                       </MotionDiv>
-                    </RutaProtegida>
-                  }
-                />
+                    }
+                  />
 
-                {/* Página 404 */}
-                <Route
-                  path="*"
-                  element={
-                    <h2 style={{ textAlign: "center" }}>
-                      Página no encontrada
-                    </h2>
-                  }
-                />
+                  {/* 🔎 Página de búsqueda */}
+                  <Route
+                    path="/busqueda"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Productos productos={productos} />
+                      </MotionDiv>
+                    }
+                  />
 
-              </Routes>
-            </AnimatePresence>
-          </main>
+                  {/* Contacto */}
+                  <Route
+                    path="/contacto"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Contacto />
+                      </MotionDiv>
+                    }
+                  />
 
-          <Footer />
-        </div>
+                  {/* Carrito */}
+                  <Route
+                    path="/carrito"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Carrito />
+                      </MotionDiv>
+                    }
+                  />
+
+                  {/* Detalle producto */}
+                  <Route
+                    path="/producto/:id"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <DetalleProducto productos={productos} />
+                      </MotionDiv>
+                    }
+                  />
+
+                  {/* Login */}
+                  <Route
+                    path="/login"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Login />
+                      </MotionDiv>
+                    }
+                  />
+
+                  {/* Register */}
+                  <Route
+                    path="/register"
+                    element={
+                      <MotionDiv
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Register />
+                      </MotionDiv>
+                    }
+                  />
+
+                  {/* Admin */}
+                  <Route
+                    path="/admin"
+                    element={
+                      <RutaProtegida role="admin">
+                        <MotionDiv
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <AdminCrud />
+                        </MotionDiv>
+                      </RutaProtegida>
+                    }
+                  />
+
+                  {/* 404 */}
+                  <Route
+                    path="*"
+                    element={
+                      <h2 style={{ textAlign: "center" }}>
+                        Página no encontrada
+                      </h2>
+                    }
+                  />
+                </Routes>
+              </AnimatePresence>
+            </main>
+
+            <Footer />
+          </div>
+        </SearchProvider>
       </CarritoProvider>
     </AuthProvider>
   );

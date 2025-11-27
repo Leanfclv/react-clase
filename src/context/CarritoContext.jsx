@@ -23,7 +23,7 @@ export function CarritoProvider({ children }) {
     }
   }, [carrito]);
 
-  // 🟩 Agregar producto
+  // ➕ Agregar producto (incrementa cantidad si ya existe)
   const agregarAlCarrito = (producto) => {
     setCarrito((prev) => {
       const id = String(producto.id);
@@ -48,21 +48,21 @@ export function CarritoProvider({ children }) {
     });
   };
 
-  // 🟧 Disminuir cantidad
-  const disminuirCantidad = (id) => {
+  // ➖ Quitar producto (de a 1)
+  const quitarDelCarrito = (id) => {
     const target = String(id);
     setCarrito((prev) =>
       prev
         .map((p) =>
           String(p.id) === target
-            ? { ...p, cantidad: Math.max(0, Number(p.cantidad || 1) - 1) }
+            ? { ...p, cantidad: Number(p.cantidad || 1) - 1 }
             : p
         )
         .filter((p) => p.cantidad > 0)
     );
   };
 
-  // 🟥 Eliminar producto del carrito
+  // 🟥 Eliminar producto COMPLETO (sin importar cantidad)
   const eliminarProducto = (id) => {
     const target = String(id);
     setCarrito((prev) => prev.filter((p) => String(p.id) !== target));
@@ -83,8 +83,8 @@ export function CarritoProvider({ children }) {
       value={{
         carrito,
         agregarAlCarrito,
-        disminuirCantidad,
-        eliminarProducto,
+        quitarDelCarrito,   // resta de a 1
+        eliminarProducto,   // borra todo el producto
         vaciarCarrito,
         calcularTotal,
       }}

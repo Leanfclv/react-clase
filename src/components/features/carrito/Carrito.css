@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 
-
 .carrito-lista {
   list-style: none;
   padding: 0;
@@ -42,6 +41,7 @@
   font-weight: bold;
 }
 
+/* 🔹 Botón eliminar */
 .carrito-info button {
   background-color: #dc3545;
   color: white;
@@ -49,6 +49,10 @@
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.carrito-info button:hover {
+  background-color: #a71d2a;
 }
 
 .carrito-total {
@@ -65,4 +69,38 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.vaciar-btn:hover {
+  background-color: #333;
+}
+
+/* 🔹 Controles de cantidad (+ y –) */
+.carrito-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.qty-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.qty-btn:hover {
+  background-color: #0056b3;
+}
+
+.carrito-qty {
+  font-weight: 600;
+  font-size: 15px;
 }
