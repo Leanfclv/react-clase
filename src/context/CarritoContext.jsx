@@ -3,15 +3,27 @@ import { createContext, useState, useEffect } from "react";
 export const CarritoContext = createContext();
 
 export function CarritoProvider({ children }) {
+  // 🟦 Cargar carrito desde localStorage
   const [carrito, setCarrito] = useState(() => {
-    const guardado = localStorage.getItem("carrito");
-    return guardado ? JSON.parse(guardado) : [];
+    try {
+      const guardado = localStorage.getItem("carrito");
+      return guardado ? JSON.parse(guardado) : [];
+    } catch (err) {
+      console.error("Error cargando carrito desde localStorage:", err);
+      return [];
+    }
   });
 
+  // 🟦 Guardar carrito en localStorage cuando cambie
   useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
+    try {
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+    } catch (err) {
+      console.error("Error guardando carrito:", err);
+    }
   }, [carrito]);
 
+  // 🟩 Agregar producto
   const agregarAlCarrito = (producto) => {
     setCarrito((prev) => {
       const id = String(producto.id);
@@ -25,32 +37,46 @@ export function CarritoProvider({ children }) {
         );
       }
 
-      return [...prev, { ...producto, id, cantidad: 1 }];
+      return [
+        ...prev,
+        {
+          ...producto,
+          id,
+          cantidad: 1,
+        },
+      ];
     });
   };
 
+  // 🟧 Disminuir cantidad
   const disminuirCantidad = (id) => {
     const target = String(id);
     setCarrito((prev) =>
       prev
         .map((p) =>
           String(p.id) === target
-            ? { ...p, cantidad: Number(p.cantidad || 1) - 1 }
+            ? { ...p, cantidad: Math.max(0, Number(p.cantidad || 1) - 1) }
             : p
         )
         .filter((p) => p.cantidad > 0)
     );
   };
 
+  // 🟥 Eliminar producto del carrito
   const eliminarProducto = (id) => {
     const target = String(id);
     setCarrito((prev) => prev.filter((p) => String(p.id) !== target));
   };
 
+  // 🧹 Vaciar carrito
   const vaciarCarrito = () => setCarrito([]);
 
+  // 💰 Calcular total
   const calcularTotal = () =>
-    carrito.reduce((acc, p) => acc + Number(p.price) * Number(p.cantidad), 0);
+    carrito.reduce(
+      (acc, p) => acc + Number(p.price || 0) * Number(p.cantidad || 0),
+      0
+    );
 
   return (
     <CarritoContext.Provider

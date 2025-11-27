@@ -101,7 +101,7 @@ function Register() {
             src="https://developers.google.com/identity/images/g-logo.png"
             alt="Google"
           />
-          Registrarse con Google
+          Iniciar sesión con Google
         </button>
 
         <button onClick={handleFacebookRegister} className="register-social-btn">
@@ -109,7 +109,7 @@ function Register() {
             src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
             alt="Facebook"
           />
-          Registrarse con Facebook
+          Iniciar sesión con Facebook
         </button>
       </div>
     </div>
