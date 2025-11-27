@@ -80,11 +80,15 @@
   color: white;
 }
 
+/* 👋 Saludo del usuario */
 .nav-user {
   margin-left: 12px;
-  font-weight: 500;
-  color: #f0f0f0;
+  font-weight: 600;
+  color: #fff; /* más contraste sobre el fondo azul */
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 15px;
+  background-color: rgba(255,255,255,0.1); /* leve fondo transparente */
+  padding: 6px 10px;
+  border-radius: 20px; /* estilo pill redondeado */
 }

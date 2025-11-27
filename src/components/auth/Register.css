@@ -1,0 +1,179 @@
+.register-container {
+  max-width: 400px;
+  margin: 120px auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.register-container h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.register-sub {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.register-form label {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #3483fa;
+  background-color: #fff;
+}
+
+.register-btn {
+  padding: 12px;
+  background-color: white; /* fondo blanco */
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+}
+
+.register-btn:hover {
+  background-color: #3483fa; /* azul Mercado Libre */
+  color: white; /* texto blanco cuando está en hover */
+  border-color: #3483fa;
+}
+
+.register-error {
+  color: crimson;
+  font-size: 13px;
+  margin-top: -8px;
+}
+
+.register-divider {
+  margin: 24px 0;
+  font-size: 14px;
+  color: #999;
+  position: relative;
+  text-align: center;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ccc;
+}
+
+.register-divider::before {
+  left: 0;
+}
+
+.register-divider::after {
+  right: 0;
+}
+
+.register-social {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.register-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 50px; /* bordes redondeados */
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: white; /* fondo blanco */
+  color: #333;
+  transition: box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.register-social-btn:hover {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-social-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Barra de seguridad de contraseña */
+.password-strength {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #eee;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.password-strength div {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength.strength-0 div {
+  width: 0%; /* vacío → sin barra */
+}
+
+.password-strength.strength-1 div {
+  width: 25%;
+  background-color: red; /* aparece rojo apenas escribís */
+}
+
+.password-strength.strength-2 div {
+  width: 50%;
+  background-color: orange;
+}
+
+.password-strength.strength-3 div {
+  width: 75%;
+  background-color: #f1c40f;
+}
+
+.password-strength.strength-4 div {
+  width: 100%;
+  background-color: green;
+}
+
+.password-strength.strength-5 div {
+  width: 100%;
+  background-color: darkgreen;
+}

@@ -1,0 +1,34 @@
+.auth-error {
+  color: crimson;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-social {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.auth-social p {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-btn {
+  padding: 10px 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+}
+
+.auth-btn.google {
+  background-color: #db4437;
+}
+
+.auth-btn.facebook {
+  background-color: #4267B2;
+}

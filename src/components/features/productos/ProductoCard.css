@@ -49,7 +49,6 @@
   height: 40px;
   padding: 0 12px;
   font-size: 14px;
-  border: none;
   border-radius: 4px;
   text-decoration: none;
   cursor: pointer;
@@ -57,25 +56,31 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
 }
 
+/* 🔥 Botón Agregar al carrito */
 .card-btn.agregar {
-  background-color: #007bff;
-  color: white;
+  background-color: white !important;   /* fondo blanco */
+  color: #007bff !important;            /* texto azul */
+  border: 1px solid #007bff !important; /* borde azul */
+  font-weight: 600;
 }
-
 .card-btn.agregar:hover {
-  background-color: #0056b3;
+  background-color: #007bff !important; /* azul al hover */
+  color: white !important;              /* texto blanco */
   transform: scale(1.05);
 }
 
+/* 🔥 Botón Ver detalle */
 .card-btn.detalle {
-  background-color: #555;
-  color: white;
+  background-color: #f8f9fa;      /* gris claro */
+  color: #333;
+  border: 1px solid #ccc;
 }
 
 .card-btn.detalle:hover {
-  background-color: #333;
+  background-color: #e9ecef;
+  color: #007bff;
   transform: scale(1.05);
 }

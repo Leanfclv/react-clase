@@ -66,3 +66,14 @@
 .main-content {
   flex: 1;
 }
+.card-buttons button.agregar {
+  background-color: white !important;   /* fondo blanco */
+  color: #007bff !important;            /* texto azul */
+  border: 1px solid #007bff !important; /* borde azul */
+  font-weight: 600;
+}
+
+.card-buttons button.agregar:hover {
+  background-color: #007bff !important; /* azul al hover */
+  color: white !important;              /* texto blanco */
+}

@@ -16,6 +16,9 @@ function Navbar() {
   const { carrito } = useContext(CarritoContext);
   const { user, logout } = useContext(AuthContext);
 
+  // 🔹 Total de unidades en el carrito
+  const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -34,8 +37,8 @@ function Navbar() {
         {user && (
           <Link to="/carrito" className="cart-icon">
             <FaShoppingCart />
-            {carrito.length > 0 && (
-              <span className="cart-count">{carrito.length}</span>
+            {totalItems > 0 && (
+              <span className="cart-count">{totalItems}</span>
             )}
           </Link>
         )}
@@ -44,7 +47,7 @@ function Navbar() {
           <>
             <span className="nav-user">
               <FaUser style={{ marginRight: "6px" }} />
-              {user.email}
+              Hola {user.displayName || "Leandro"} 👋
             </span>
             <button className="nav-btn" onClick={logout}>
               <FaSignOutAlt style={{ marginRight: "6px" }} />
