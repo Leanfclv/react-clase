@@ -1,24 +1,44 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 function RutaProtegida({ children, role }) {
   const { user } = useContext(AuthContext);
+  const [allowed, setAllowed] = useState(null);
 
-  // Si no hay usuario → redirigir al login
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    const checkRole = async () => {
+      if (user) {
+        const ref = doc(db, "usuarios", user.uid);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          const data = snap.data();
+          // Si no se pide rol específico → cualquier usuario autenticado entra
+          if (!role) {
+            setAllowed(true);
+          } else {
+            setAllowed(data.role === role);
+          }
+        } else {
+          setAllowed(false);
+        }
+      }
+    };
+    checkRole();
+  }, [user, role]);
 
-  // Si la ruta requiere rol y el usuario no lo tiene
-  if (role) {
-    const isAdmin = user.email === "admin@gmail.com"; // 👉 Ajusta esto a tu admin real
+  // 🔹 Si no hay usuario → login
+  if (!user) return <Navigate to="/login" replace />;
 
-    if (role === "admin" && !isAdmin) {
-      return <Navigate to="/" replace />;
-    }
-  }
+  // 🔹 Mientras se consulta Firestore → loading
+  if (allowed === null) return <p>Cargando permisos...</p>;
 
+  // 🔹 Si no tiene el rol → home
+  if (!allowed) return <Navigate to="/" replace />;
+
+  // 🔹 Si todo ok → renderiza children
   return children;
 }
 

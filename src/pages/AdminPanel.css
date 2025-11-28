@@ -1,0 +1,86 @@
+.admin-panel {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.admin-panel h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-form input,
+.admin-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.admin-form textarea {
+  grid-column: span 4;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.admin-form button {
+  grid-column: span 4;
+  padding: 12px;
+  background-color: #007bff; /* Azul principal */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-form button:hover {
+  background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+
+.product-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 15px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.product-row input,
+.product-row textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.product-row textarea {
+  resize: vertical;
+  min-height: 40px;
+}
+
+.product-row button {
+  padding: 8px 12px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-row button:hover {
+  background-color: #cc0000;
+}

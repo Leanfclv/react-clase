@@ -10,9 +10,8 @@ import Carrito from "./components/features/carrito/Carrito";
 import DetalleProducto from "./components/features/detalle/DetalleProducto";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import AdminCrud from "./components/admin/AdminCrud";
 import RutaProtegida from "./components/auth/RutaProtegida";
-
+import AdminPanel from "./pages/AdminPanel";
 import { AuthProvider } from "./context/AuthContext";
 import { CarritoProvider } from "./context/CarritoContext";
 import { SearchProvider } from "./context/SearchContext";
@@ -148,7 +147,7 @@ function App() {
                     }
                   />
 
-                  {/* Admin */}
+                  {/* 🔐 Admin protegido */}
                   <Route
                     path="/admin"
                     element={
@@ -159,7 +158,7 @@ function App() {
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <AdminCrud />
+                          <AdminPanel />
                         </MotionDiv>
                       </RutaProtegida>
                     }

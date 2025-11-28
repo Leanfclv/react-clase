@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 function Register() {
@@ -11,6 +12,8 @@ function Register() {
   const [error, setError] = useState("");
   const [strength, setStrength] = useState(0);
 
+  const navigate = useNavigate(); // 👈 para redirigir
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -19,7 +22,14 @@ function Register() {
       return;
     }
     try {
-      await register(email, password);
+      const newUser = await register(email, password);
+
+      // 👇 Si es admin, redirigir al panel; si no, al home
+      if (newUser.email === "admin@gmail.com") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("Error al registrarse: " + err.message);
     }
@@ -32,18 +42,19 @@ function Register() {
   };
 
   const checkStrength = (pwd) => {
-    if (!pwd) return 0; // vacío → sin barra
-    let score = 1; // 👈 arranca en rojo apenas hay algo
+    if (!pwd) return 0;
+    let score = 1;
     if (pwd.length >= 6) score++;
     if (/[A-Z]/.test(pwd)) score++;
     if (/[0-9]/.test(pwd)) score++;
     if (/[^A-Za-z0-9]/.test(pwd)) score++;
-    return score; // valores de 0 a 5
+    return score;
   };
 
   const handleGoogleRegister = async () => {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
+      navigate("/"); // 👈 redirigir al home
     } catch (err) {
       setError("Error con Google: " + err.message);
     }
@@ -52,6 +63,7 @@ function Register() {
   const handleFacebookRegister = async () => {
     try {
       await signInWithPopup(auth, new FacebookAuthProvider());
+      navigate("/"); // 👈 redirigir al home
     } catch (err) {
       setError("Error con Facebook: " + err.message);
     }

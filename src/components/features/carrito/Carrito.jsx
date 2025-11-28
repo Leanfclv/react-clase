@@ -4,7 +4,6 @@ import { FaTrashAlt, FaShoppingBag } from 'react-icons/fa';
 import './Carrito.css';
 
 function Carrito() {
-  // 👇 Consumimos el contexto
   const { carrito, agregarAlCarrito, quitarDelCarrito, vaciarCarrito } = useContext(CarritoContext);
 
   // Calculamos el total considerando cantidad
@@ -42,15 +41,6 @@ function Carrito() {
                       +
                     </button>
                   </div>
-
-                  {/* 🔹 Eliminar todo el producto */}
-                  <button 
-                    onClick={() => quitarDelCarrito(producto.id)} 
-                    className="remove-btn"
-                  >
-                    <FaTrashAlt style={{ marginRight: '6px' }} />
-                    Eliminar
-                  </button>
                 </div>
               </li>
             ))}

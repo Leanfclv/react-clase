@@ -1,34 +1,75 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function AdminCrud() {
   const [articulos, setArticulos] = useState([]);
   const [nuevo, setNuevo] = useState("");
 
-  const agregar = () => {
+  const API_URL = "https://69275fed26e7e41498fe04b6.mockapi.io/productos";
+
+  // 🔹 Leer productos al montar
+  useEffect(() => {
+    fetchProductos();
+  }, []);
+
+  const fetchProductos = async () => {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      setArticulos(data);
+    } catch (error) {
+      console.error("Error al cargar productos:", error);
+    }
+  };
+
+  // 🔹 Crear producto
+  const agregar = async () => {
     if (nuevo.trim() === "") return;
-    setArticulos([...articulos, { id: Date.now(), nombre: nuevo }]);
-    setNuevo("");
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: nuevo }),
+      });
+      setNuevo("");
+      fetchProductos(); // refrescar lista
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+    }
   };
 
-  const eliminar = (id) => {
-    setArticulos(articulos.filter((a) => a.id !== id));
+  // 🔹 Eliminar producto
+  const eliminar = async (id) => {
+    try {
+      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      fetchProductos();
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+    }
   };
 
-  const editar = (id, nombre) => {
-    setArticulos(
-      articulos.map((a) => (a.id === id ? { ...a, nombre } : a))
-    );
+  // 🔹 Editar producto
+  const editar = async (id, nombre) => {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre }),
+      });
+      fetchProductos();
+    } catch (error) {
+      console.error("Error al editar producto:", error);
+    }
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Panel Admin - CRUD Artículos</h2>
+      <h2>Panel Admin - CRUD Productos (MockAPI)</h2>
 
       <div style={{ marginBottom: "10px" }}>
         <input
           value={nuevo}
           onChange={(e) => setNuevo(e.target.value)}
-          placeholder="Nuevo artículo"
+          placeholder="Nuevo producto"
         />
         <button onClick={agregar}>Agregar</button>
       </div>
@@ -49,3 +90,4 @@ function AdminCrud() {
 }
 
 export default AdminCrud;
+

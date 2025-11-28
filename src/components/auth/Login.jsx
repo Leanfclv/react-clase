@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 import { auth } from "../../firebaseConfig";
@@ -9,16 +9,27 @@ import Swal from "sweetalert2";
 import "./Login.css";
 
 function Login() {
-  const { login, loginGoogle } = useContext(AuthContext);
+  const { login, loginGoogle, user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // 🔹 Si ya hay sesión, redirigir automáticamente
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      navigate("/");
+      const loggedUser = await login(email, password);
+
+      // 👇 Si es admin, redirigir al panel; si no, al home
+      if (loggedUser.email === "admin@gmail.com") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       Swal.fire("Error", "Email o contraseña incorrectos", "error");
     }

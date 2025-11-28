@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
@@ -12,6 +12,8 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import { CarritoContext } from "../../context/CarritoContext";
 import { SearchContext } from "../../context/SearchContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 import "./Navbar.css";
 
@@ -21,11 +23,9 @@ function Navbar() {
   const { query, setQuery } = useContext(SearchContext);
 
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
   const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
-  const nombreUsuario = user?.displayName
-    ? user.displayName.split(" ")[0]
-    : "Leandro";
 
   // 🔎 manejar búsqueda
   const handleSearchSubmit = (e) => {
@@ -33,6 +33,36 @@ function Navbar() {
     if (query.trim().length > 0) {
       navigate("/busqueda");
     }
+  };
+
+  // 🔹 Traer datos del usuario desde Firestore
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        const ref = doc(db, "usuarios", user.uid);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          setUserData(snap.data());
+        }
+      } else {
+        setUserData(null);
+      }
+    };
+    fetchUserData();
+  }, [user]);
+
+  // 🔹 Determinar saludo dinámico
+  const saludo = () => {
+    if (!user) return "";
+    if (userData?.role === "admin") return "Admin";
+
+    // Si tiene displayName, tomamos solo el primer nombre
+    if (user.displayName) {
+      return user.displayName.split(" ")[0];
+    }
+
+    // Si no tiene displayName, usamos el email antes del @
+    return user.email.split("@")[0];
   };
 
   return (
@@ -75,7 +105,7 @@ function Navbar() {
               )}
             </Link>
 
-            {/* PREVIEW FLOTANTE SIEMPRE AL DENTRO DEL CONTENEDOR */}
+            {/* PREVIEW FLOTANTE */}
             <div className="cart-preview">
               {carrito.length === 0 ? (
                 <p className="empty-cart">Tu carrito está vacío</p>
@@ -108,7 +138,7 @@ function Navbar() {
           <>
             <span className="nav-user">
               <FaUser style={{ marginRight: "6px" }} />
-              Hola {nombreUsuario} 👋
+              Hola {saludo()} 👋
             </span>
 
             <button className="nav-btn" onClick={logout}>

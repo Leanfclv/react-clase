@@ -4,9 +4,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  createUserWithEmailAndPassword
 } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { auth, db } from "../firebaseConfig";
 
@@ -15,6 +16,23 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // =========================================================
+  // REGISTER EMAIL / PASSWORD
+  // =========================================================
+  const register = async (email, password) => {
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+
+    // Guardar documento en Firestore con rol por defecto "user"
+    await setDoc(doc(db, "usuarios", res.user.uid), {
+      uid: res.user.uid,
+      email: res.user.email,
+      role: "user"
+    });
+
+    setUser(res.user);
+    return res.user;
+  };
 
   // =========================================================
   // LOGIN EMAIL / PASSWORD
@@ -48,13 +66,12 @@ export const AuthProvider = ({ children }) => {
       const snap = await getDoc(ref);
 
       if (!snap.exists()) {
-        await signOut(auth);
-        Swal.fire(
-          "Cuenta no registrada",
-          "Este correo no está autorizado",
-          "warning"
-        );
-        return { ok: false };
+        // Si no existe, lo creamos con rol "user"
+        await setDoc(ref, {
+          uid: googleUser.uid,
+          email: googleUser.email,
+          role: "user"
+        });
       }
 
       setUser(googleUser);
@@ -76,7 +93,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // =========================================================
-  // AUTH STATE LISTENER (sin navegación)
+  // AUTH STATE LISTENER
   // =========================================================
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
@@ -89,7 +106,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, loginGoogle, logout, setUser }}
+      value={{ user, loading, register, login, loginGoogle, logout, setUser }}
     >
       {!loading && children}
     </AuthContext.Provider>
